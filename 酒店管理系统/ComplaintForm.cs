@@ -12,19 +12,21 @@ namespace HotelmanageSystem
 {
     public partial class ComplaintForm : Form
     {
+        private DBHandler dBHandler;
         public ComplaintForm()
         {
             InitializeComponent();
+            dBHandler = new DBHandler();
         }
 
         private void ComplaintForm_Load(object sender, EventArgs e)
         {
             int tag = 0;
-            List<Complaint> complaints = new List<Complaint>();
-            //List<Complaint> complaints = GetComplaints();//获取投诉列表
-            complaints.Add(new Complaint("000001", "100000", "2020-01-01"));
-            complaints.Add(new Complaint("000002", "200000", "2020-01-02"));
-            complaints.Add(new Complaint("000003", "300000", "2020-01-03"));
+            //List<Complaint> complaints = new List<Complaint>();
+            List<Complaint> complaints = dBHandler.GetComplaints();//获取投诉列表
+            //complaints.Add(new Complaint("000001", "100000", "2020-01-01"));
+            //complaints.Add(new Complaint("000002", "200000", "2020-01-02"));
+            //complaints.Add(new Complaint("000003", "300000", "2020-01-03"));
             foreach(Complaint complaint in complaints)//添加列表项
             {
                 ListViewItem listViewItem = new ListViewItem(complaint.Com_id);
@@ -73,16 +75,11 @@ namespace HotelmanageSystem
                 if (dialogResult == DialogResult.OK)
                 {
                     int tag = (int)lvwComplaint.SelectedItems[0].Tag;
-                    //DeleteComplaint(lvwComplaint.SelectedItems[0].SubItems[0].Text);//删除该条投诉
+                    dBHandler.DeleteComplaint(lvwComplaint.SelectedItems[0].SubItems[0].Text);//删除该条投诉
                     lvwComplaint.Items.RemoveAt(tag);
                     MessageBox.Show("删除成功！");
                 }
             }
-        }
-
-        private void lvwComplaint_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

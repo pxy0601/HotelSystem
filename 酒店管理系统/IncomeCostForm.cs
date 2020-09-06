@@ -21,15 +21,17 @@ namespace HotelmanageSystem
         {
             if (DateTime.Compare(dtpStartime.Value,dtpEndtime.Value) <1||dtpStartime.Value.ToShortDateString()==dtpEndtime.Value.ToShortDateString())//起始日期比结束日期早
             {
+                DBHandler dBHandler = new DBHandler();
                 txtGrossProfit.Text = "";//清空
                 lvwCost.Items.Clear();
                 lvwIncome.Items.Clear();
                 int gross_profit = 0;
-                List<Income> incomes = new List<Income>();
-                //List<Income> incomes=GetIncomes(dtpStartime.Value，dtpEndtime.Value);//获取收入列表
-                incomes.Add(new Income("单人间", 3, 300, "2020-01-01"));
-                incomes.Add(new Income("双人间", 2, 300, "2020-01-03"));
-                incomes.Add(new Income("大床房", 3, 420, "2020-01-04"));
+                //List<Income> incomes = new List<Income>();
+                
+                List<Income> incomes=dBHandler.GetIncomes(dtpStartime.Value.ToShortDateString(),dtpEndtime.Value.ToShortDateString());//获取收入列表
+                //incomes.Add(new Income("单人间", 3, 300, "2020-01-01"));
+                //incomes.Add(new Income("双人间", 2, 300, "2020-01-03"));
+                //incomes.Add(new Income("大床房", 3, 420, "2020-01-04"));
                 foreach(Income income in incomes)//添加列表项
                 {
                     gross_profit += income.Gross_income;
@@ -39,13 +41,14 @@ namespace HotelmanageSystem
                     listViewItem.SubItems.Add(income.Date);
                     lvwIncome.Items.Add(listViewItem);
                 }
-                List<Cost> costs = new List<Cost>();
-                TimeSpan timeSpan = dtpEndtime.Value.Subtract(dtpStartime.Value);
-                //List<Cost> costs=GetCosts(timeSpan.Days);//获取支出列表
-                costs.Add(new Cost("管理员", 1, 1000));
-                costs.Add(new Cost("前台", 10, 5000));
-                costs.Add(new Cost("清洁工", 3, 1500));
-                foreach(Cost cost in costs)//添加列表项
+                //List<Cost> costs = new List<Cost>();
+                //TimeSpan timeSpan = dtpEndtime.Value.Subtract(dtpStartime.Value);
+                //MessageBox.Show(dtpStartime.Value.ToShortDateString() + "++" + dtpEndtime.Value.Date+"++"+timeSpan.Days);
+                List<Cost> costs=dBHandler.GetCosts(dtpStartime.Value.ToShortDateString(), dtpEndtime.Value.ToShortDateString());//获取支出列表
+                //costs.Add(new Cost("管理员", 1, 1000));
+                //costs.Add(new Cost("前台", 10, 5000));
+                //costs.Add(new Cost("清洁工", 3, 1500));
+                foreach (Cost cost in costs)//添加列表项
                 {
                     gross_profit -= cost.Gross_cost;
                     ListViewItem listViewItem = new ListViewItem(cost.Kind);

@@ -12,22 +12,24 @@ namespace HotelmanageSystem
 {
     public partial class EmployeeListForm : Form
     {
+        private DBHandler dBHandler;
         private string attribute;//记录属性名
         public EmployeeListForm()
         {
             InitializeComponent();
             attribute = "";
+            dBHandler = new DBHandler();
         }
 
         private void EmployeeListForm_Load(object sender, EventArgs e)
         {
-            List<Employee> employees = new List<Employee>();
-            //List<Employee> employees =GetEmployees();//获取员工列表
+            //List<Employee> employees = new List<Employee>();
+            List<Employee> employees =dBHandler.GetEmployees();//获取员工列表
             int tag = 0;
-            employees.Add(new Employee("001", "潘1", "男", "530302200006012416", "18687437921", 12000, "2020-06-06", "管理员"));
-            employees.Add(new Employee("002", "潘2", "男", "530302200006012417", "18687437922", 12000, "2020-06-07", "管理员"));
-            employees.Add(new Employee("003", "潘3", "男", "530302200006012418", "18687437923", 12000, "2020-06-08", "前台"));
-            employees.Add(new Employee("004", "潘4", "男", "530302200006012419", "18687437924", 12000, "2020-06-09", "清洁工"));
+            //employees.Add(new Employee("001", "潘1", "男", "530302200006012416", "18687437921", 12000, "2020-06-06", "管理员"));
+            //employees.Add(new Employee("002", "潘2", "男", "530302200006012417", "18687437922", 12000, "2020-06-07", "管理员"));
+            //employees.Add(new Employee("003", "潘3", "男", "530302200006012418", "18687437923", 12000, "2020-06-08", "前台"));
+            //employees.Add(new Employee("004", "潘4", "男", "530302200006012419", "18687437924", 12000, "2020-06-09", "清洁工"));
             foreach(Employee employee in employees)//遍历，添加到表格中
             {
                 ListViewItem listViewItem = new ListViewItem(employee.Number);
@@ -61,7 +63,7 @@ namespace HotelmanageSystem
                 if (dialogResult == DialogResult.OK)//确认删除
                 {
                     int tid = (int)lvwEmployee.SelectedItems[0].Tag;
-                    //DeleteEmployee(lvwEmployee.SelectedItems[0].SubItems[0].Text);
+                    dBHandler.DeleteEmployee(lvwEmployee.SelectedItems[0].SubItems[0].Text,lvwEmployee.SelectedItems[0].SubItems[3].Text);
                     lvwEmployee.Items.RemoveAt(tid);
                     MessageBox.Show("成功删除！");
                 }
@@ -83,7 +85,7 @@ namespace HotelmanageSystem
                 if (lvwEmployee.SelectedItems[0].SubItems[2].Text == "女")//女-->男
                 {
                     lvwEmployee.SelectedItems[0].SubItems[2].Text = "男";
-                    //ModifyEmployeesex(lvwEmployee.SelectedItems[0].SubItems[0].Text,"女");
+                    dBHandler.ModifyEmployeesex(lvwEmployee.SelectedItems[0].SubItems[0].Text,"男");
                     MessageBox.Show("成功修改!");
                 }
             }
@@ -104,7 +106,7 @@ namespace HotelmanageSystem
                 if (lvwEmployee.SelectedItems[0].SubItems[2].Text == "男")//男-->女
                 {
                     lvwEmployee.SelectedItems[0].SubItems[2].Text = "女";
-                    //ModifyEmployeesex(lvwEmployee.SelectedItems[0].SubItems[0].Text,"男");
+                    dBHandler.ModifyEmployeesex(lvwEmployee.SelectedItems[0].SubItems[0].Text,"女");
                     MessageBox.Show("成功修改!");
                 }
             }
@@ -190,8 +192,8 @@ namespace HotelmanageSystem
                         }
                         else
                         {
+                            dBHandler.ModifyEmployeeID(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
                             lvwEmployee.SelectedItems[0].SubItems[0].Text = mtxEmployeeinfo.Text;
-                            //ModifyEmployeeID(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
                             MessageBox.Show("成功修改员工编号!");
                         }
                     }
@@ -200,7 +202,7 @@ namespace HotelmanageSystem
                         if (lvwEmployee.SelectedItems[0].SubItems[1].Text != mtxEmployeeinfo.Text)
                         {
                             lvwEmployee.SelectedItems[0].SubItems[1].Text = mtxEmployeeinfo.Text;
-                            //ModifyEmployeename(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
+                            dBHandler.ModifyEmployeename(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
                             MessageBox.Show("成功修改员工姓名!");
                         }
                     }
@@ -218,7 +220,7 @@ namespace HotelmanageSystem
                         if(!isExistStatus)
                         {
                             lvwEmployee.SelectedItems[0].SubItems[3].Text = mtxEmployeeinfo.Text.Replace("-", "");
-                            //ModifyEmployeestatus(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text.Replace("-","");
+                            dBHandler.ModifyEmployeestatus(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text.Replace("-",""));
                             MessageBox.Show("成功修改身份证号!");
                         }
                         else
@@ -240,7 +242,7 @@ namespace HotelmanageSystem
                         if (!isExistPhone)
                         {
                             lvwEmployee.SelectedItems[0].SubItems[4].Text = mtxEmployeeinfo.Text.Replace("-", "");
-                            //ModifyEmployeephone(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text.Replace("-","");
+                            dBHandler.ModifyEmployeephone(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text.Replace("-",""));
                             MessageBox.Show("成功修改电话号码!");
                         }
                         else
@@ -253,7 +255,7 @@ namespace HotelmanageSystem
                         if (lvwEmployee.SelectedItems[0].SubItems[5].Text != mtxEmployeeinfo.Text)
                         {
                             lvwEmployee.SelectedItems[0].SubItems[5].Text = mtxEmployeeinfo.Text;
-                            //ModifyEmployeesalary(lvwEmployee.SelectedItems[0].SubItems[0].Text,Convert.ToInt32(mtxEmployeeinfo.Text));
+                            dBHandler.ModifyEmployeesalary(lvwEmployee.SelectedItems[0].SubItems[0].Text,Convert.ToInt32(mtxEmployeeinfo.Text));
                             MessageBox.Show("成功修改员工薪水!");
                         }
                     }
@@ -261,8 +263,8 @@ namespace HotelmanageSystem
                     {
                         if (lvwEmployee.SelectedItems[0].SubItems[6].Text != mtxEmployeeinfo.Text)
                         {
-                            lvwEmployee.SelectedItems[0].SubItems[6].Text = mtxEmployeeinfo.Text;
-                            //ModifyEmployeetime(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
+                            lvwEmployee.SelectedItems[0].SubItems[6].Text = mtxEmployeeinfo.Text+" 0:00:00";
+                            dBHandler.ModifyEmployeetime(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
                             MessageBox.Show("成功修改入职时间!");
                         }
                     }
@@ -271,7 +273,7 @@ namespace HotelmanageSystem
                         if (lvwEmployee.SelectedItems[0].SubItems[7].Text != mtxEmployeeinfo.Text)
                         {
                             lvwEmployee.SelectedItems[0].SubItems[7].Text = mtxEmployeeinfo.Text;
-                            //ModifyEmployeeposition(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
+                            dBHandler.ModifyEmployeeposition(lvwEmployee.SelectedItems[0].SubItems[0].Text,mtxEmployeeinfo.Text);
                             MessageBox.Show("成功修改员工职位!");
                         }
                     }

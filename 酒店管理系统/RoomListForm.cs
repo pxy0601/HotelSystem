@@ -13,21 +13,23 @@ namespace HotelmanageSystem
     public partial class RoomListForm : Form
     {
         private string attribute;//记录属性名
+        private DBHandler dBHandler;
         public RoomListForm()
         {
             InitializeComponent();
             attribute = "";
+            dBHandler = new DBHandler();
         }
         
         private void RoomListForm_Load(object sender, EventArgs e)
         {
-            List<Room> rooms= rooms = new List<Room>();
+            //List<Room> rooms= rooms = new List<Room>();
             int tag = 0;
-                //List<Room> rooms = GetRooms();//获取房间列表
-            rooms.Add(new Room("001", "单人间", 1, 100));
-            rooms.Add(new Room("002", "双人间", 1, 120));
-            rooms.Add(new Room("003", "大床房", 1, 110));
-            rooms.Add(new Room("004", "双人间", 0, 120));
+            List<Room> rooms = dBHandler.GetRooms();//获取房间列表
+            //rooms.Add(new Room("001", "单人间", 1, 100));
+            //rooms.Add(new Room("002", "双人间", 1, 120));
+            //rooms.Add(new Room("003", "大床房", 1, 110));
+            //rooms.Add(new Room("004", "双人间", 0, 120));
             foreach(Room room in rooms)
             {
                 ListViewItem listViewItem = new ListViewItem(room.Number);
@@ -55,7 +57,7 @@ namespace HotelmanageSystem
                 if(lvwRoom.SelectedItems[0].SubItems[2].Text == "否")//否-->是
                 {
                     lvwRoom.SelectedItems[0].SubItems[2].Text = "是";
-                    //ModifyIsnormal(lvwRoom.SelectedItems[0].SubItems[0].Text,"是");
+                    dBHandler.ModifyIsnormal(lvwRoom.SelectedItems[0].SubItems[0].Text,"是");
                     MessageBox.Show("成功修改!");
                 }
             }
@@ -76,7 +78,7 @@ namespace HotelmanageSystem
                 if (lvwRoom.SelectedItems[0].SubItems[2].Text == "是")
                 {
                     lvwRoom.SelectedItems[0].SubItems[2].Text = "否";
-                    //ModifyIsnormal(lvwRoom.SelectedItems[0].SubItems[0].Text,"否");
+                    dBHandler.ModifyIsnormal(lvwRoom.SelectedItems[0].SubItems[0].Text,"否");
                     MessageBox.Show("成功修改!");
                 }
             }
@@ -99,7 +101,7 @@ namespace HotelmanageSystem
                 if (dialogResult == DialogResult.OK)
                 {
                     int tid = (int)lvwRoom.SelectedItems[0].Tag;
-                    //DeleteRoom(lvwRoom.SelectedItems[0].SubItems[0].Text);
+                    dBHandler.DeleteRoom(lvwRoom.SelectedItems[0].SubItems[0].Text);
                     lvwRoom.Items.RemoveAt(tid);
                     MessageBox.Show("成功删除！");
                 }
@@ -136,7 +138,7 @@ namespace HotelmanageSystem
                             MessageBox.Show("房间号已经存在，修改失败！");
                         }
                         else{
-                        //ModifyRoom_no(RoomListForm.lvwRoom.SelectedItems[0].SubItems[0].Text,txtRoominfo.Text);
+                        dBHandler.ModifyRoom_no(lvwRoom.SelectedItems[0].SubItems[0].Text,txtRoominfo.Text);
                         lvwRoom.SelectedItems[0].SubItems[0].Text = txtRoominfo.Text;
                         MessageBox.Show("成功修改房间号！");
                         txtRoominfo.Text = "";
@@ -144,22 +146,12 @@ namespace HotelmanageSystem
                     }
                     else if (attribute == "房间类型")//修改房间类型会导致房间价格改变
                     {
-                        bool IsExistKind = false;
-                        string price="";
-                        foreach (ListViewItem listViewItem in lvwRoom.Items)//是否存在该房间类型
+                        bool IsExistKind =dBHandler.isExistRoom_kind(txtRoominfo.Text);
+                        if (!IsExistKind)
                         {
-                            if (listViewItem.SubItems[1].Text == txtRoominfo.Text)
-                            {
-                                IsExistKind = true;
-                                price = listViewItem.SubItems[3].Text;
-                                break;
-                            }
-                        }
-                        if (IsExistKind)
-                        {
-                            //ModifyRoomkind(lvwRoom.SelectedItems[0].SubItems[0].Text,txtRoominfo.Text);
+                            dBHandler.ModifyRoomkind(lvwRoom.SelectedItems[0].SubItems[0].Text,txtRoominfo.Text);
                             lvwRoom.SelectedItems[0].SubItems[1].Text = txtRoominfo.Text;
-                            lvwRoom.SelectedItems[0].SubItems[3].Text = price;
+                            lvwRoom.SelectedItems[0].SubItems[3].Text = dBHandler.GetRoomprice(txtRoominfo.Text).ToString();
                             MessageBox.Show("成功修改房间类型！");
                             txtRoominfo.Text = "";
                         }
@@ -170,7 +162,8 @@ namespace HotelmanageSystem
                             if (dialogResult == DialogResult.Yes)
                             {
                                 string kind = txtRoominfo.Text;
-                                //AddRoomKind(kind,Convert.ToInt32(lvwRoom.SelectedItems[0].SubItems[3].Text));
+                                dBHandler.AddRoomkind(kind,Convert.ToInt32(lvwRoom.SelectedItems[0].SubItems[3].Text));
+                                dBHandler.ModifyRoomkind(lvwRoom.SelectedItems[0].SubItems[0].Text, txtRoominfo.Text);
                                 lvwRoom.SelectedItems[0].SubItems[1].Text = kind;
                                 MessageBox.Show("需再修改该房间的价格才能成功修改房间类型！");
                                 txtRoominfo.Text = "";
@@ -184,7 +177,7 @@ namespace HotelmanageSystem
                         if (dialogResult == DialogResult.OK)
                         {
                             string kind = lvwRoom.SelectedItems[0].SubItems[1].Text;
-                            //ModifyRoomprice(lvwRoom.SelectedItems[0].SubItems[2].Text,Convert.ToInt32(txtRoominfo.Text));
+                            dBHandler.ModifyRoomprice(lvwRoom.SelectedItems[0].SubItems[1].Text,Convert.ToInt32(txtRoominfo.Text));
                             foreach (ListViewItem listViewItem in lvwRoom.Items)
                             {
                                 if (listViewItem.SubItems[1].Text == kind)

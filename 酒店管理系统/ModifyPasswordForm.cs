@@ -13,10 +13,12 @@ namespace HotelmanageSystem
     public partial class ModifyPasswordForm : Form
     {
         private string kind;//记录类型
+        private DBHandler dBHandler;
         public ModifyPasswordForm()
         {
             InitializeComponent();
             this.kind = "";
+            dBHandler = new DBHandler();
         }
 
         private void rdoUser_CheckedChanged(object sender, EventArgs e)//单选按钮，下同
@@ -69,39 +71,39 @@ namespace HotelmanageSystem
                 {
                     if (kind == "用户")
                     {
-                        //if (isExistID(txtID.Text, "用户"))//存在该账号
-                        //{
-                        //    ModifyPassword(txtID.Text, txtNewpassword.Text, "用户");
-                        MessageBox.Show(txtNewpassword.Text + "修改密码成功！");
-                        //}
-                        //else
-                        //{ 
-                        //MessageBox.Show("用户不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        //}
+                        if (dBHandler.isExistID(txtID.Text, "用户"))//存在该账号
+                        {
+                            dBHandler.ModifyPassword(txtID.Text, txtNewpassword.Text, "用户");
+                            MessageBox.Show("用户"+txtID.Text + "修改密码成功！");
+                        }
+                        else
+                        {
+                            MessageBox.Show("用户账号不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
                     else if (kind == "前台")
                     {
-                        //if (isExistID(txtID.Text, "前台"))//存在该账号
-                        //{
-                        //    ModifyPassword(txtID.Text, txtNewpassword.Text, "前台");
-                        MessageBox.Show(txtNewpassword.Text + "修改密码成功！");
-                        //}
-                        //else
-                        //{ 
-                        //MessageBox.Show("用户不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        //}
+                        if (dBHandler.isExistID(txtID.Text, "前台"))//存在该账号
+                        {
+                            dBHandler.ModifyPassword(txtID.Text, txtNewpassword.Text, "前台");
+                            MessageBox.Show("前台"+txtID.Text + "修改密码成功！");
+                        }
+                        else
+                        {
+                            MessageBox.Show("前台账号不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
                     else
                     {
-                        //if (isExistID(txtID.Text, "管理员"))//存在该账号
-                        //{
-                        //    ModifyPassword(txtID.Text, txtNewpassword.Text, "管理员");
-                        MessageBox.Show(txtNewpassword.Text + "修改密码成功！");
-                        //}
-                        //else
-                        //{ 
-                        //MessageBox.Show("用户不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        //}
+                        if (dBHandler.isExistID(txtID.Text, "管理员"))//存在该账号
+                        {
+                            dBHandler.ModifyPassword(txtID.Text, txtNewpassword.Text, "管理员");
+                            MessageBox.Show("管理员"+txtID.Text + "修改密码成功！");
+                        }
+                        else
+                        {
+                            MessageBox.Show("管理员账号不存在！", "出错提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
 
                 }

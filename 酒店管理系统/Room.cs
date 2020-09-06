@@ -13,18 +13,11 @@ namespace HotelmanageSystem
         private string isNormal;
         private int price;
         public Room() { }
-        public Room(string num,string knd,int isNor,int pri)
+        public Room(string num,string knd,string isNor,int pri)
         {
             this.number = num;
             this.kind = knd;
-            if (isNor > 0)
-            {
-                this.isNormal = "是";
-            }
-            else
-            {
-                this.isNormal = "否";
-            }
+            this.isNormal = isNor;
             this.price = pri;
         }
         public string Number

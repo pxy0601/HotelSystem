@@ -53,13 +53,13 @@
     <Compile Include="AddemployeeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddemployeeForm.Designer.cs">
+    <Compile Include="AddemployeeForm.designer.cs">
       <DependentUpon>AddemployeeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddroomForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddroomForm.Designer.cs">
+    <Compile Include="AddroomForm.designer.cs">
       <DependentUpon>AddroomForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AppServeForm.cs">
@@ -102,21 +102,22 @@
     <Compile Include="ComplaintDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComplaintDetailsForm.Designer.cs">
+    <Compile Include="ComplaintDetailsForm.designer.cs">
       <DependentUpon>ComplaintDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ComplaintForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComplaintForm.Designer.cs">
+    <Compile Include="ComplaintForm.designer.cs">
       <DependentUpon>ComplaintForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Cost.cs" />
+    <Compile Include="DatabaseAccess.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmployeeListForm.Designer.cs">
+    <Compile Include="EmployeeListForm.designer.cs">
       <DependentUpon>EmployeeListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FindAccount.cs">
@@ -144,7 +145,7 @@
     <Compile Include="IncomeCostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IncomeCostForm.Designer.cs">
+    <Compile Include="IncomeCostForm.designer.cs">
       <DependentUpon>IncomeCostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ManagerForm.cs">
@@ -156,7 +157,7 @@
     <Compile Include="ModifyPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModifyPasswordForm.Designer.cs">
+    <Compile Include="ModifyPasswordForm.designer.cs">
       <DependentUpon>ModifyPasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProcessServiceForm.cs">
@@ -207,7 +208,7 @@
     <Compile Include="RoomListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoomListForm.Designer.cs">
+    <Compile Include="RoomListForm.designer.cs">
       <DependentUpon>RoomListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Serve.cs" />
